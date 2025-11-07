@@ -85,7 +85,7 @@
 }
 
 .enter-button:hover {
-  background: rgba(42, 100, 120, 1);
+  background: rgb(59, 196, 241);
   transform: translate(-50%, -50%) scale(1.05);
   box-shadow: 0 12px 48px rgba(27, 197, 253, 0.6);
 }

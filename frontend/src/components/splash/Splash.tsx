@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Splash.css';
-import fishingImage from '../../assets/fishing-splash.jpg';  // ADD THIS
+import fishingImage from '../../assets/fishing-splash.jpg';  
 
 const Splash: React.FC = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Splash: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButton(true);
-    }, 3000);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -26,7 +26,7 @@ const Splash: React.FC = () => {
     <div className={`splash-screen ${isExiting ? 'exiting' : ''}`}>
       <div className="splash-image-container">
         <img 
-          src={fishingImage}  // CHANGE THIS
+          src={fishingImage}  
           alt="Fishing" 
           className="splash-image"
         />
