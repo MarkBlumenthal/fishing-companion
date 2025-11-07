@@ -2,8 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Splash from './components/splash/Splash';
-
-
 import Dashboard from './components/dashboard/Dashboard';
 import TripPlanner from './components/trips/TripPlanner';
 import TripForm from './components/trips/TripForm';
