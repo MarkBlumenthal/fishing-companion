@@ -8,6 +8,7 @@ import { weatherService } from '../../services/weatherService';
 import { tripService } from '../../services/tripService';
 import { journalService } from '../../services/journalService';
 import { formatDate, getFishingScoreColor } from '../../utils/helpers';
+import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();

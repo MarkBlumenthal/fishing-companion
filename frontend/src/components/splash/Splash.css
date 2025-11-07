@@ -1,0 +1,128 @@
+/* Splash Screen Styles */
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.splash-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The fishing image that zooms in - STARTS SMALL, GROWS TO FULL SCREEN */
+.splash-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: zoomIn 3s ease-out forwards;
+}
+
+/* Zoom in animation */
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Dark overlay for better button visibility */
+.splash-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Enter button */
+.enter-button {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.5rem 4rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  background: rgba(42, 100, 120, 0.9);
+  border: 3px solid white;
+  border-radius: 50px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: fadeInButton 0.5s ease-out 3s forwards;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.enter-button:hover {
+  background: rgba(42, 100, 120, 1);
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 12px 48px rgba(27, 197, 253, 0.6);
+}
+
+.enter-button:active {
+  transform: translate(-50%, -50%) scale(0.98);
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+}
+
+/* Exit animation - fade out entire screen */
+.splash-screen.exiting {
+  animation: fadeOutSplash 1s ease-out forwards;
+}
+
+@keyframes fadeOutSplash {
+  to {
+    opacity: 0;
+  }
+}
+
+.splash-screen.exiting .enter-button {
+  animation: fadeOutButton 0.3s ease-out forwards;
+}
+
+@keyframes fadeOutButton {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
