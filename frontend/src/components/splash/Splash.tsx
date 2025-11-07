@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Splash.css';
-import fishingImage from '../../assets/fishing-splash.jpg';  
+import fishingImage from '../../assets/fishing-splash.jpg';
 
 const Splash: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Splash: React.FC = () => {
     <div className={`splash-screen ${isExiting ? 'exiting' : ''}`}>
       <div className="splash-image-container">
         <img 
-          src={fishingImage}  
+          src={fishingImage}
           alt="Fishing" 
           className="splash-image"
         />
@@ -34,12 +34,15 @@ const Splash: React.FC = () => {
       </div>
       
       {showButton && !isExiting && (
-        <button 
-          className="enter-button"
-          onClick={handleEnter}
-        >
-          Enter
-        </button>
+        <div className="splash-content">
+          <h1 className="splash-title">Fishing Companion</h1>
+          <button 
+            className="enter-button"
+            onClick={handleEnter}
+          >
+            Enter
+          </button>
+        </div>
       )}
     </div>
   );

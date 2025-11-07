@@ -65,7 +65,7 @@
 /* Enter button */
 .enter-button {
   position: fixed;
-  top: 50%;
+  top: 65%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 1.5rem 4rem;
@@ -124,5 +124,32 @@
   to {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+/* Title styling */
+.splash-title {
+  font-family: 'Avallon', serif; 
+  font-size: 4rem;
+  font-weight: 900;
+  color: rgb(18, 19, 19);
+  text-align: center;
+  margin: 0;
+  margin-bottom: 2rem;
+  text-shadow: 0 4px 20px rgb(248, 248, 250);
+  letter-spacing: 2px;
+  animation: fadeInButton 0.5s ease-out forwards;
+  opacity: 0;
+  position: fixed;
+  top: 45%;  
+  left: 50%;  
+  transform: translate(-50%, -50%);  
+  z-index: 10;  
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .splash-title {
+    font-size: 2.5rem;
   }
 }
