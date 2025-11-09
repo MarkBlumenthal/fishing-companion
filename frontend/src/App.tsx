@@ -9,7 +9,6 @@ import TripDetails from './components/trips/TripDetails';
 import FishDatabase from './components/fish/FishDatabase';
 import CatchJournal from './components/journal/CatchJournal';
 import CatchForm from './components/journal/CatchForm';
-import GearManager from './components/gear/GearManager';
 import WeatherForecast from './components/weather/WeatherForecast';
 
 
@@ -39,7 +38,6 @@ const AppLayout: React.FC = () => {
               <li><Link to="/trips">Trip Planner</Link></li>
               <li><Link to="/fish">Fish Database</Link></li>
               <li><Link to="/journal">Catch Journal</Link></li>
-              <li><Link to="/gear">Gear Manager</Link></li>
               <li><Link to="/weather">Weather</Link></li>
           </ul>
         </nav>
@@ -62,9 +60,6 @@ const AppLayout: React.FC = () => {
           <Route path="/journal" element={<CatchJournal />} />
           <Route path="/journal/new" element={<CatchForm />} />
           <Route path="/journal/edit/:id" element={<CatchForm isEdit={true} />} />
-          
-          {/* Gear manager route */}
-          <Route path="/gear" element={<GearManager />} />
           
           {/* Weather forecast route */}
           <Route path="/weather" element={<WeatherForecast />} />

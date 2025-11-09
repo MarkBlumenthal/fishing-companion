@@ -243,6 +243,28 @@
   color: #6c757d;
 }
 
+/* Add glow effect to cards */
+.current-weather-card,
+.dashboard-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgb(5, 185, 245);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgb(0, 190, 253);
+  }
+  50% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 30px rgba(0, 190, 253);
+  }
+}
+
+/* Keep hover effect but enhance it */
+.dashboard-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 40px rgba(0, 190, 253);
+  transform: translateY(-4px);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .dashboard-header {

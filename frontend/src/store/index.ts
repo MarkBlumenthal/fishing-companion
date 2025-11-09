@@ -1,14 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import tripReducer from './slices/tripSlice';
 import fishReducer from './slices/fishSlice';
-import gearReducer from './slices/gearSlice';
 import weatherReducer from './slices/weatherSlice';
 
 export const store = configureStore({
   reducer: {
     trips: tripReducer,
     fish: fishReducer,
-    gear: gearReducer,
     weather: weatherReducer,
   },
 });
