@@ -179,6 +179,26 @@
   border-bottom: 2px solid #e0e0e0;
 }
 
+.btn-primary {
+  background-color: rgb(0, 190, 253)
+}
+
+.btn-secondary {
+  background-color: #3e93af;
+  color: #0c0c0c;
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-card .btn.btn-secondary {
+  margin-top: 20px;   /* pushes it to the bottom */
+  align-self: flex-start; /* optional: keep it left-aligned */
+}
+
+
 /* Lists */
 .trips-list,
 .catches-list {
