@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import './App.css';
 import Splash from './components/splash/Splash';
 import Dashboard from './components/dashboard/Dashboard';
@@ -11,6 +11,7 @@ import CatchJournal from './components/journal/CatchJournal';
 import CatchForm from './components/journal/CatchForm';
 import GearManager from './components/gear/GearManager';
 import WeatherForecast from './components/weather/WeatherForecast';
+
 
 const App: React.FC = () => {
   return (
@@ -34,12 +35,12 @@ const AppLayout: React.FC = () => {
         <h1>Fishing Companion</h1>
         <nav>
           <ul className="nav-links">
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/trips">Trip Planner</a></li>
-            <li><a href="/fish">Fish Database</a></li>
-            <li><a href="/journal">Catch Journal</a></li>
-            <li><a href="/gear">Gear Manager</a></li>
-            <li><a href="/weather">Weather</a></li>
+              <li><Link to="/dashboard">Dashboard</Link></li>
+              <li><Link to="/trips">Trip Planner</Link></li>
+              <li><Link to="/fish">Fish Database</Link></li>
+              <li><Link to="/journal">Catch Journal</Link></li>
+              <li><Link to="/gear">Gear Manager</Link></li>
+              <li><Link to="/weather">Weather</Link></li>
           </ul>
         </nav>
       </header>

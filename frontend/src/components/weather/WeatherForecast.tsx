@@ -20,6 +20,7 @@ import {
   getMoonPhaseName
 } from '../../utils/helpers';
 import Map from '../common/Map';
+import './Weather.css';
 
 // Chart component for visualizing forecast data
 import {
@@ -53,8 +54,6 @@ const WeatherForecast: React.FC = () => {
       
       // If we already have a location selected or no saved locations, try to get user's current location
       if (!selectedLocation && locations.length === 0) {
-        // For simplicity, we're using a default location
-        // In a real app, we would use the browser's geolocation API
         const defaultLocation = {
           id: 'current',
           name: 'Current Location',
@@ -115,11 +114,45 @@ const WeatherForecast: React.FC = () => {
     }
   };
   
-  // Handle location selection
+  // Handle location selection from saved locations
   const handleLocationSelect = (location: Location) => {
     setSelectedLocation(location);
     setMapCenter([location.latitude, location.longitude]);
     fetchWeatherData(location.latitude, location.longitude);
+  };
+
+  // Handle map click - get weather for any clicked location
+  const handleMapClick = (lat: number, lng: number) => {
+    // Create a temporary location for the clicked point
+    const clickedLocation: Location = {
+      id: 'clicked',
+      name: `Location (${lat.toFixed(2)}, ${lng.toFixed(2)})`,
+      latitude: lat,
+      longitude: lng,
+      notes: 'Clicked location'
+    };
+    
+    setSelectedLocation(clickedLocation);
+    setMapCenter([lat, lng]);
+    fetchWeatherData(lat, lng);
+  };
+
+  // Handle delete location
+  const handleDeleteLocation = (locationId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering location select
+    
+    if (window.confirm('Are you sure you want to delete this saved location?')) {
+      tripService.deleteLocation(locationId);
+      
+      // Update local state
+      const updatedLocations = savedLocations.filter(loc => loc.id !== locationId);
+      setSavedLocations(updatedLocations);
+      
+      // If deleted location was selected, clear it
+      if (selectedLocation?.id === locationId) {
+        setSelectedLocation(null);
+      }
+    }
   };
   
   // Get color based on temperature
@@ -152,24 +185,48 @@ const WeatherForecast: React.FC = () => {
       <div className="location-selection">
         <h3>Select Location</h3>
         
+        {/* Show current selected location */}
+        {selectedLocation && (
+          <div className="current-location-display">
+            <strong>Current Location:</strong> {selectedLocation.name}
+            <span className="coordinates">
+              ({selectedLocation.latitude.toFixed(4)}, {selectedLocation.longitude.toFixed(4)})
+            </span>
+          </div>
+        )}
+        
+        {/* Saved locations */}
         <div className="saved-locations">
+          <h4>Quick Select - Saved Locations:</h4>
           {savedLocations.length === 0 ? (
-            <p>No saved locations. Add some in the Trip Planner.</p>
+            <p>No saved locations. Add some in the Trip Planner or click on the map below.</p>
           ) : (
             <div className="location-list">
               {savedLocations.map(location => (
-                <button
-                  key={location.id}
-                  className={`location-btn ${selectedLocation?.id === location.id ? 'active' : ''}`}
-                  onClick={() => handleLocationSelect(location)}
-                >
-                  {location.name}
-                </button>
+                <div key={location.id} className="location-item-wrapper">
+                  <button
+                    className={`location-btn ${selectedLocation?.id === location.id ? 'active' : ''}`}
+                    onClick={() => handleLocationSelect(location)}
+                  >
+                    {location.name}
+                  </button>
+                  <button
+                    className="delete-location-btn"
+                    onClick={(e) => handleDeleteLocation(location.id, e)}
+                    title="Delete location"
+                  >
+                    ×
+                  </button>
+                </div>
               ))}
             </div>
           )}
         </div>
         
+        {/* Map with click functionality */}
+        <div className="map-instructions">
+          <p><strong>Click anywhere on the map</strong> to get weather for that location</p>
+        </div>
         <div className="map-container">
           <Map
             locations={savedLocations}
@@ -177,7 +234,8 @@ const WeatherForecast: React.FC = () => {
             center={mapCenter}
             zoom={8}
             onLocationSelect={handleLocationSelect}
-            height="250px"
+            onMapClick={handleMapClick}
+            height="350px"
           />
         </div>
       </div>
@@ -188,7 +246,7 @@ const WeatherForecast: React.FC = () => {
         <div className="error-message">{error}</div>
       ) : !currentWeather ? (
         <div className="no-data-message">
-          <p>Select a location to view weather and fishing conditions.</p>
+          <p>Click on the map or select a saved location to view weather and fishing conditions.</p>
         </div>
       ) : (
         <div className="weather-data">
@@ -330,7 +388,6 @@ const WeatherForecast: React.FC = () => {
                     <span className="value">{getMoonPhaseName(sunData[0].moonPhase)}</span>
                   </div>
                   <div className="moon-phase-visual">
-                    {/* Visual representation of moon phase would go here in a real app */}
                     {sunData[0].moonPhase === 0 && '🌑'}
                     {sunData[0].moonPhase > 0 && sunData[0].moonPhase < 0.25 && '🌒'}
                     {sunData[0].moonPhase === 0.25 && '🌓'}

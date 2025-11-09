@@ -7,8 +7,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// In a real app, you would get this from environment variables
-// For this demo, we're using OpenWeatherMap's API with a free tier API key
 const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY || 'YOUR_OPENWEATHER_API_KEY';
 
 // Middleware
@@ -21,13 +19,13 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Fishing Companion API is working!' });
 });
 
-// Weather API proxy routes
+// Weather API proxy routes - ADDED &units=imperial
 app.get('/api/weather/:lat/:lon', async (req, res) => {
   const { lat, lon } = req.params;
   
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=imperial`
     );
     
     res.json(response.data);
@@ -45,7 +43,7 @@ app.get('/api/forecast/:lat/:lon', async (req, res) => {
   
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}`
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=imperial`
     );
     
     res.json(response.data);
@@ -58,18 +56,15 @@ app.get('/api/forecast/:lat/:lon', async (req, res) => {
   }
 });
 
-// Simplified sun data endpoint (in a real app, we would use a proper astronomy API)
+// Simplified sun data endpoint
 app.get('/api/sun/:lat/:lon/:date', async (req, res) => {
   const { lat, lon, date } = req.params;
   
   try {
-    // Use sunrise-sunset.org API for sun data
     const response = await axios.get(
       `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&date=${date}&formatted=0`
     );
     
-    // Calculate moon phase (simplified for demo purposes)
-    // In a real app, we would use a more accurate astronomy calculation
     const dateObj = new Date(date);
     const phaseCalculation = ((dateObj.getTime() / 86400000) % 29.5) / 29.5;
     
@@ -87,51 +82,27 @@ app.get('/api/sun/:lat/:lon/:date', async (req, res) => {
   }
 });
 
-// Simplified tides endpoint (in a real app, would use a proper tide API)
+// Simplified tides endpoint
 app.get('/api/tides/:lat/:lon/:date', (req, res) => {
   const { lat, lon, date } = req.params;
   
-  // For demo purposes, we're returning mock tide data
-  // In a real app, we would use a tide prediction API (often requires paid subscription)
-  
-  // Check if location is coastal (very simplified check)
-  // In reality, would need a more sophisticated check or a database of coastal locations
-  const isCoastal = Math.abs(Math.abs(lon) - 123) < 3 || // West Coast US approximation
-                    Math.abs(Math.abs(lon) - 74) < 3;    // East Coast US approximation
+  const isCoastal = Math.abs(Math.abs(lon) - 123) < 3 || 
+                    Math.abs(Math.abs(lon) - 74) < 3;
   
   if (!isCoastal) {
     return res.status(404).json({ error: 'No tide data available for inland locations' });
   }
   
-  // Generate mock tide data
-  const dateObj = new Date(date);
   const tides = [
-    {
-      time: '03:42:00',
-      height: 1.2,
-      type: 'low'
-    },
-    {
-      time: '09:56:00',
-      height: 4.5,
-      type: 'high'
-    },
-    {
-      time: '16:12:00',
-      height: 0.8,
-      type: 'low'
-    },
-    {
-      time: '22:24:00',
-      height: 3.9,
-      type: 'high'
-    }
+    { time: '03:42:00', height: 1.2, type: 'low' },
+    { time: '09:56:00', height: 4.5, type: 'high' },
+    { time: '16:12:00', height: 0.8, type: 'low' },
+    { time: '22:24:00', height: 3.9, type: 'high' }
   ];
   
   res.json(tides);
 });
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

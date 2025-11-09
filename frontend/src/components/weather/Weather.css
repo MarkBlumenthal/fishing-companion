@@ -1,0 +1,62 @@
+.location-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.location-item-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.location-btn {
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 2px solid #ccc;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.location-btn:hover {
+  border-color: #2a6478;
+  background: #f0f0f0;
+}
+
+.location-btn.active {
+  background: #2a6478;
+  color: white;
+  border-color: #2a6478;
+}
+
+.delete-location-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: #d9534f;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.delete-location-btn:hover {
+  background: #c9302c;
+  transform: scale(1.1);
+}
+
+.location-btn.active + .delete-location-btn {
+  background: white;
+  color: #d9534f;
+}
