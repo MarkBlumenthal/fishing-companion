@@ -33,30 +33,59 @@ const Dashboard: React.FC = () => {
         .slice(0, 3);
       setRecentCatches(catches);
       
-      // For demo purposes, let's use default coordinates (can be replaced with geolocation)
-      // This would be Chicago, IL
-      const lat = 41.8781;
-      const lon = -87.6298;
-      
       try {
         // Get current weather for fishing score
         if (!currentWeather) {
-          const weatherData = await weatherService.getCurrentWeather(lat, lon);
-          dispatch(setCurrentWeather(weatherData));
-          
-          // Calculate fishing score
-          const score = weatherService.getFishingScore(weatherData);
-          setFishingScore(score);
+          if (navigator.geolocation) {
+            // Get user's actual location
+            navigator.geolocation.getCurrentPosition(
+              async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                
+                const weatherData = await weatherService.getCurrentWeather(lat, lon);
+                dispatch(setCurrentWeather(weatherData));
+                
+                // Calculate fishing score
+                const score = weatherService.getFishingScore(weatherData);
+                setFishingScore(score);
+                setLoading(false);
+              },
+              async (error) => {
+                // If user denies location or error occurs, use Chicago as fallback
+                console.log('Geolocation error, using default location:', error);
+                const lat = 41.8781;
+                const lon = -87.6298;
+                
+                const weatherData = await weatherService.getCurrentWeather(lat, lon);
+                dispatch(setCurrentWeather(weatherData));
+                const score = weatherService.getFishingScore(weatherData);
+                setFishingScore(score);
+                setLoading(false);
+              }
+            );
+          } else {
+            // Browser doesn't support geolocation, use Chicago
+            const lat = 41.8781;
+            const lon = -87.6298;
+            
+            const weatherData = await weatherService.getCurrentWeather(lat, lon);
+            dispatch(setCurrentWeather(weatherData));
+            
+            const score = weatherService.getFishingScore(weatherData);
+            setFishingScore(score);
+            setLoading(false);
+          }
         } else {
           // Calculate fishing score from existing weather
           const score = weatherService.getFishingScore(currentWeather);
           setFishingScore(score);
+          setLoading(false);
         }
       } catch (error) {
         console.error('Error fetching weather data:', error);
+        setLoading(false);
       }
-      
-      setLoading(false);
     };
     
     initDashboard();

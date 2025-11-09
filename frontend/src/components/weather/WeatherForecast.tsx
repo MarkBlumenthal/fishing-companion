@@ -45,15 +45,50 @@ const WeatherForecast: React.FC = () => {
   const [mapCenter, setMapCenter] = useState<[number, number]>([41.8781, -87.6298]); // Default: Chicago
   
   useEffect(() => {
-    const loadWeatherData = async () => {
-      dispatch(setLoading(true));
-      
-      // Load saved locations from trip service
-      const locations = tripService.getAllLocations();
-      setSavedLocations(locations);
-      
-      // If we already have a location selected or no saved locations, try to get user's current location
-      if (!selectedLocation && locations.length === 0) {
+  const loadWeatherData = async () => {
+    dispatch(setLoading(true));
+    
+    // Load saved locations from trip service
+    const locations = tripService.getAllLocations();
+    setSavedLocations(locations);
+    
+    // Get user's current location
+    if (!selectedLocation) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            const currentLocation = {
+              id: 'current',
+              name: 'Current Location',
+              latitude: lat,
+              longitude: lon,
+              notes: 'Your current location',
+            };
+            
+            setSelectedLocation(currentLocation);
+            setMapCenter([lat, lon]);
+            await fetchWeatherData(lat, lon);
+          },
+          async (error) => {
+            // If user denies or error, use Chicago as fallback
+            console.log('Geolocation error, using default location:', error);
+            const defaultLocation = {
+              id: 'current',
+              name: 'Current Location',
+              latitude: 41.8781,
+              longitude: -87.6298,
+              notes: 'Default location (Chicago)',
+            };
+            
+            setSelectedLocation(defaultLocation);
+            await fetchWeatherData(defaultLocation.latitude, defaultLocation.longitude);
+          }
+        );
+      } else {
+        // Browser doesn't support geolocation
         const defaultLocation = {
           id: 'current',
           name: 'Current Location',
@@ -65,12 +100,13 @@ const WeatherForecast: React.FC = () => {
         setSelectedLocation(defaultLocation);
         await fetchWeatherData(defaultLocation.latitude, defaultLocation.longitude);
       }
-      
-      dispatch(setLoading(false));
-    };
+    }
     
-    loadWeatherData();
-  }, [dispatch]);
+    dispatch(setLoading(false));
+  };
+  
+  loadWeatherData();
+}, [dispatch]);
   
   // Fetch weather data for a location
   const fetchWeatherData = async (latitude: number, longitude: number) => {
