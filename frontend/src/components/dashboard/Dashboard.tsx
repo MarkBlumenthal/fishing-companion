@@ -8,14 +8,15 @@ import { weatherService } from '../../services/weatherService';
 import { tripService } from '../../services/tripService';
 import { journalService } from '../../services/journalService';
 import { formatDate, getFishingScoreColor } from '../../utils/helpers';
+import PageTransition from '../common/PageTransition';
 import './Dashboard.css';
+
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const currentWeather = useSelector((state: RootState) => state.weather.currentWeather);
   const [upcomingTrips, setUpcomingTrips] = useState<Trip[]>([]);
   const [recentCatches, setRecentCatches] = useState<any[]>([]);
-  const [maintenanceItems, setMaintenanceItems] = useState<any[]>([]);
   const [fishingScore, setFishingScore] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   
@@ -92,8 +93,9 @@ const Dashboard: React.FC = () => {
   }, [dispatch, currentWeather]);
   
   return (
-    <div className="dashboard">
-      <h2>Dashboard</h2>
+  <div className="dashboard">
+    <PageTransition />
+    <h2>Dashboard</h2>
       
       {loading ? (
         <div className="loading">Loading dashboard data...</div>

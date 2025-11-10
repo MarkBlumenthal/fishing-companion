@@ -21,6 +21,7 @@ import {
 } from '../../utils/helpers';
 import Map from '../common/Map';
 import './Weather.css';
+import PageTransition from '../common/PageTransition';
 
 // Chart component for visualizing forecast data
 import {
@@ -213,8 +214,9 @@ const WeatherForecast: React.FC = () => {
   }));
   
   return (
-    <div className="weather-forecast">
-      <div className="page-header">
+  <div className="weather-forecast">
+    <PageTransition />
+    <div className="page-header">
         <h2>Weather & Fishing Conditions</h2>
       </div>
       
