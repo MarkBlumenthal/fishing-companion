@@ -11,15 +11,18 @@ import CatchJournal from './components/journal/CatchJournal';
 import CatchForm from './components/journal/CatchForm';
 import WeatherForecast from './components/weather/WeatherForecast';
 import CornerPop from './components/common/CornerPop';
-
+import BubbleBackground from './components/common/BubbleBackground';
 
 const App: React.FC = () => {
   return (
     <Router>
+      {/* Bubbles render once at the app root so they appear on Splash and all pages */}
+      <BubbleBackground count={15} />
+
       <Routes>
         {/* Splash Screen - First screen on load */}
         <Route path="/" element={<Splash />} />
-        
+
         {/* Main App Routes with Header/Footer */}
         <Route path="/*" element={<AppLayout />} />
       </Routes>
@@ -35,56 +38,56 @@ const AppLayout: React.FC = () => {
         <h1>Fishing Companion</h1>
         <nav>
           <ul className="nav-links">
-              <li><Link to="/dashboard">Dashboard</Link></li>
-              <li><Link to="/trips">Trip Planner</Link></li>
-              <li><Link to="/fish">Fish Database</Link></li>
-              <li><Link to="/journal">Catch Journal</Link></li>
-              <li><Link to="/weather">Weather</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><Link to="/trips">Trip Planner</Link></li>
+            <li><Link to="/fish">Fish Database</Link></li>
+            <li><Link to="/journal">Catch Journal</Link></li>
+            <li><Link to="/weather">Weather</Link></li>
           </ul>
         </nav>
       </header>
-      
+
       <main className="App-content">
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          
+
           {/* Trip routes */}
           <Route path="/trips" element={<TripPlanner />} />
           <Route path="/trips/new" element={<TripForm />} />
           <Route path="/trips/edit/:id" element={<TripForm isEdit={true} />} />
           <Route path="/trips/:id" element={<TripDetails />} />
-          
+
           {/* Fish database route */}
           <Route path="/fish" element={<FishDatabase />} />
-          
+
           {/* Journal routes */}
           <Route path="/journal" element={<CatchJournal />} />
           <Route path="/journal/new" element={<CatchForm />} />
           <Route path="/journal/edit/:id" element={<CatchForm isEdit={true} />} />
-          
+
           {/* Weather forecast route */}
           <Route path="/weather" element={<WeatherForecast />} />
-          
+
           {/* Redirect any unknown routes to dashboard */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>
 
-       {/* 👇 Add the sticky corner image here */}
+      {/* Sticky corner image */}
       <CornerPop imgSrc="/images/corner-fish.png" size={220} />
-      
+
       <footer className="App-footer">
-  <p>&copy; {new Date().getFullYear()} Fishing Companion</p>
-  <div className="social-links">
-    <span>Follow us:</span>
-    <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="social-link">
-      <i className="fab fa-facebook"></i>
-    </a>
-    <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" className="social-link x-logo">
-  𝕏
-</a>
-  </div>
-</footer>
+        <p>&copy; {new Date().getFullYear()} Fishing Companion</p>
+        <div className="social-links">
+          <span>Follow us:</span>
+          <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="social-link">
+            <i className="fab fa-facebook"></i>
+          </a>
+          <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" className="social-link x-logo">
+            𝕏
+          </a>
+        </div>
+      </footer>
     </div>
   );
 };
