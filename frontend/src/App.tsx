@@ -17,7 +17,7 @@ const App: React.FC = () => {
   return (
     <Router>
       {/* Bubbles render once at the app root so they appear on Splash and all pages */}
-      <BubbleBackground count={15} />
+      <BubbleBackground count={12} />
 
       <Routes>
         {/* Splash Screen - First screen on load */}
