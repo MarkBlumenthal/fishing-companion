@@ -10,6 +10,7 @@ import FishDatabase from './components/fish/FishDatabase';
 import CatchJournal from './components/journal/CatchJournal';
 import CatchForm from './components/journal/CatchForm';
 import WeatherForecast from './components/weather/WeatherForecast';
+import CornerPop from './components/common/CornerPop';
 
 
 const App: React.FC = () => {
@@ -68,6 +69,9 @@ const AppLayout: React.FC = () => {
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>
+
+       {/* 👇 Add the sticky corner image here */}
+      <CornerPop imgSrc="/images/corner-fish.png" size={220} />
       
       <footer className="App-footer">
   <p>&copy; {new Date().getFullYear()} Fishing Companion</p>

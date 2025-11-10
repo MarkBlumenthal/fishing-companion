@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Trip } from '../../types';
 import { tripService } from '../../services/tripService';
 import { formatDate } from '../../utils/helpers';
-import PageTransition from '../common/PageTransition';
 import './TripPlanner.css';
 
 const TripPlanner: React.FC = () => {
@@ -42,7 +41,6 @@ const TripPlanner: React.FC = () => {
   
   return (
   <div className="trip-planner">
-    <PageTransition />
     <div className="page-header">
         <h2>Trip Planner</h2>
         <Link to="/trips/new" className="btn btn-primary">Plan New Trip</Link>

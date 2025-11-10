@@ -3,12 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../../store';
 import { setCurrentWeather } from '../../store/slices/weatherSlice';
-import { WeatherData, Trip } from '../../types';
+import { Trip } from '../../types';
 import { weatherService } from '../../services/weatherService';
 import { tripService } from '../../services/tripService';
 import { journalService } from '../../services/journalService';
 import { formatDate, getFishingScoreColor } from '../../utils/helpers';
-import PageTransition from '../common/PageTransition';
 import './Dashboard.css';
 
 
@@ -94,7 +93,6 @@ const Dashboard: React.FC = () => {
   
   return (
   <div className="dashboard">
-    <PageTransition />
     <h2>Dashboard</h2>
       
       {loading ? (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { 
@@ -13,19 +13,16 @@ import { Location } from '../../types';
 import { weatherService } from '../../services/weatherService';
 import { tripService } from '../../services/tripService';
 import { 
-  formatDate, 
   formatTime, 
-  kelvinToFahrenheit, 
   getFishingScoreColor,
   getMoonPhaseName
 } from '../../utils/helpers';
 import Map from '../common/Map';
 import './Weather.css';
-import PageTransition from '../common/PageTransition';
 
 // Chart component for visualizing forecast data
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar
 } from 'recharts';
 
@@ -44,73 +41,9 @@ const WeatherForecast: React.FC = () => {
   const [savedLocations, setSavedLocations] = useState<Location[]>([]);
   const [fishingScores, setFishingScores] = useState<{ date: string; score: number }[]>([]);
   const [mapCenter, setMapCenter] = useState<[number, number]>([41.8781, -87.6298]); // Default: Chicago
-  
-  useEffect(() => {
-  const loadWeatherData = async () => {
-    dispatch(setLoading(true));
-    
-    // Load saved locations from trip service
-    const locations = tripService.getAllLocations();
-    setSavedLocations(locations);
-    
-    // Get user's current location
-    if (!selectedLocation) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            
-            const currentLocation = {
-              id: 'current',
-              name: 'Current Location',
-              latitude: lat,
-              longitude: lon,
-              notes: 'Your current location',
-            };
-            
-            setSelectedLocation(currentLocation);
-            setMapCenter([lat, lon]);
-            await fetchWeatherData(lat, lon);
-          },
-          async (error) => {
-            // If user denies or error, use Chicago as fallback
-            console.log('Geolocation error, using default location:', error);
-            const defaultLocation = {
-              id: 'current',
-              name: 'Current Location',
-              latitude: 41.8781,
-              longitude: -87.6298,
-              notes: 'Default location (Chicago)',
-            };
-            
-            setSelectedLocation(defaultLocation);
-            await fetchWeatherData(defaultLocation.latitude, defaultLocation.longitude);
-          }
-        );
-      } else {
-        // Browser doesn't support geolocation
-        const defaultLocation = {
-          id: 'current',
-          name: 'Current Location',
-          latitude: 41.8781,
-          longitude: -87.6298,
-          notes: 'Default location (Chicago)',
-        };
-        
-        setSelectedLocation(defaultLocation);
-        await fetchWeatherData(defaultLocation.latitude, defaultLocation.longitude);
-      }
-    }
-    
-    dispatch(setLoading(false));
-  };
-  
-  loadWeatherData();
-}, [dispatch]);
-  
-  // Fetch weather data for a location
-  const fetchWeatherData = async (latitude: number, longitude: number) => {
+
+  // Fetch weather data for a location (memoized so eslint is happy)
+  const fetchWeatherData = useCallback(async (latitude: number, longitude: number) => {
     dispatch(setLoading(true));
     dispatch(setError(null));
     
@@ -149,7 +82,71 @@ const WeatherForecast: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
-  };
+  }, [dispatch]);
+  
+  useEffect(() => {
+    const loadWeatherData = async () => {
+      dispatch(setLoading(true));
+      
+      // Load saved locations from trip service
+      const locations = tripService.getAllLocations();
+      setSavedLocations(locations);
+      
+      // Get user's current location
+      if (!selectedLocation) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              
+              const currentLocation = {
+                id: 'current',
+                name: 'Current Location',
+                latitude: lat,
+                longitude: lon,
+                notes: 'Your current location',
+              };
+              
+              setSelectedLocation(currentLocation);
+              setMapCenter([lat, lon]);
+              await fetchWeatherData(lat, lon);
+            },
+            async (error) => {
+              // If user denies or error, use Chicago as fallback
+              console.log('Geolocation error, using default location:', error);
+              const defaultLocation = {
+                id: 'current',
+                name: 'Current Location',
+                latitude: 41.8781,
+                longitude: -87.6298,
+                notes: 'Default location (Chicago)',
+              };
+              
+              setSelectedLocation(defaultLocation);
+              await fetchWeatherData(defaultLocation.latitude, defaultLocation.longitude);
+            }
+          );
+        } else {
+          // Browser doesn't support geolocation
+          const defaultLocation = {
+            id: 'current',
+            name: 'Current Location',
+            latitude: 41.8781,
+            longitude: -87.6298,
+            notes: 'Default location (Chicago)',
+          };
+          
+          setSelectedLocation(defaultLocation);
+          await fetchWeatherData(defaultLocation.latitude, defaultLocation.longitude);
+        }
+      }
+      
+      dispatch(setLoading(false));
+    };
+    
+    loadWeatherData();
+  }, [dispatch, selectedLocation, fetchWeatherData]);
   
   // Handle location selection from saved locations
   const handleLocationSelect = (location: Location) => {
@@ -215,7 +212,6 @@ const WeatherForecast: React.FC = () => {
   
   return (
   <div className="weather-forecast">
-    <PageTransition />
     <div className="page-header">
         <h2>Weather & Fishing Conditions</h2>
       </div>

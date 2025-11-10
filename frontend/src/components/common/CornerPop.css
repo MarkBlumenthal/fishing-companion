@@ -1,0 +1,52 @@
+.corner-pop {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9999;
+  /* Stays put while scrolling */
+  pointer-events: none; /* change to auto if you want it clickable */
+}
+
+.corner-pop--shadow .corner-pop__img {
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.25));
+}
+
+.corner-pop__img {
+  display: block;
+  max-width: 40vw;     /* protect small screens */
+  height: auto;
+}
+
+.corner-pop__img--animate {
+  /* Pop in once, then bob forever */
+  animation:
+    corner-pop-up 2000ms cubic-bezier(0.22, 1, 0.36, 1) both,
+    corner-bob 1s ease-in-out 2000ms infinite;
+  will-change: transform, opacity;
+}
+
+/* 2) Start further below so it clearly slides up from off-screen */
+@keyframes corner-pop-up {
+  from {
+    transform: translateY(180%); /* starts off-screen below */
+    /* no opacity change */
+  }
+  to {
+    transform: translateY(0);    /* slides up into place */
+    /* no opacity change */
+  }
+}
+
+
+/* new: gentle continuous bob */
+@keyframes corner-bob {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+/* keep this if you had it */
+@media (prefers-reduced-motion: reduce) {
+  .corner-pop__img--animate { animation: none; }
+}
+
