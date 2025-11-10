@@ -70,8 +70,17 @@ const AppLayout: React.FC = () => {
       </main>
       
       <footer className="App-footer">
-        <p>&copy; {new Date().getFullYear()}Fishing Companion</p>
-      </footer>
+  <p>&copy; {new Date().getFullYear()} Fishing Companion</p>
+  <div className="social-links">
+    <span>Follow us:</span>
+    <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="social-link">
+      <i className="fab fa-facebook"></i>
+    </a>
+    <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" className="social-link x-logo">
+  𝕏
+</a>
+  </div>
+</footer>
     </div>
   );
 };
