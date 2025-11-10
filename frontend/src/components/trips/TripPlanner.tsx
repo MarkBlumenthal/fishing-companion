@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Trip } from '../../types';
 import { tripService } from '../../services/tripService';
 import { formatDate } from '../../utils/helpers';
+import './TripPlanner.css';
 
 const TripPlanner: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
@@ -45,26 +46,29 @@ const TripPlanner: React.FC = () => {
         <Link to="/trips/new" className="btn btn-primary">Plan New Trip</Link>
       </div>
       
-      <div className="filter-controls">
-        <button 
-          className={`filter-btn ${filter === 'upcoming' ? 'active' : ''}`}
-          onClick={() => setFilter('upcoming')}
-        >
-          Upcoming
-        </button>
-        <button 
-          className={`filter-btn ${filter === 'past' ? 'active' : ''}`}
-          onClick={() => setFilter('past')}
-        >
-          Past
-        </button>
-        <button 
-          className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-          onClick={() => setFilter('all')}
-        >
-          All
-        </button>
-      </div>
+      <div className="filter-controls-card">
+  <h3>Filter Trips</h3>
+  <div className="filter-controls">
+    <button 
+      className={`filter-btn ${filter === 'upcoming' ? 'active' : ''}`}
+      onClick={() => setFilter('upcoming')}
+    >
+      Upcoming
+    </button>
+    <button 
+      className={`filter-btn ${filter === 'past' ? 'active' : ''}`}
+      onClick={() => setFilter('past')}
+    >
+      Past
+    </button>
+    <button 
+      className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+      onClick={() => setFilter('all')}
+    >
+      All
+    </button>
+  </div>
+</div>
       
       {loading ? (
         <div className="loading">Loading trips...</div>

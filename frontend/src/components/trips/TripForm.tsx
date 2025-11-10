@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Trip, Location } from '../../types';
 import { tripService } from '../../services/tripService';
-import { generateId } from '../../utils/helpers';
 import Map from '../common/Map';
 
 interface TripFormProps {
