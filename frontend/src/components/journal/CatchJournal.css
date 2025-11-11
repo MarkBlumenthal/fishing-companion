@@ -52,6 +52,22 @@
   margin-right: 0;
 }
 
+/* Space and separate the Edit (blue) / Delete (red) buttons */
+.catch-journal .catch-entry-card .catch-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;              /* space between buttons */
+  margin-top: 12px;       /* move them down a bit */
+  padding-top: 8px;       /* extra breathing room */
+  border-top: 1px solid rgba(0,0,0,0.08); /* subtle divider; remove if unwanted */
+}
+
+/* Neutralize any global margins that might collapse the gap */
+.catch-journal .catch-entry-card .catch-actions .btn {
+  margin: 0;
+}
+
 /* Optional: stack the two secondary buttons on very small screens */
 @media (max-width: 480px) {
   .catch-journal .journal-actions .secondary-actions {
@@ -66,3 +82,5 @@
     margin-bottom: 0;
   }
 }
+
+
