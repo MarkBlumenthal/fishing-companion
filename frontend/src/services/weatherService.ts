@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { WeatherData, TideData, SunData } from '../types';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+// const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = '/api';
 
 // Convert OpenWeatherMap data to our app's format
 const convertWeatherData = (data: any): WeatherData => {
