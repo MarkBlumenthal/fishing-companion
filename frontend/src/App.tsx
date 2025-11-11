@@ -101,14 +101,34 @@ const AppLayout: React.FC = () => {
       <CornerPop imgSrc={cornerFish} size={220} />
 
       <footer className="App-footer">
-        <p>&copy; {new Date().getFullYear()} Fishing Companion</p>
-        <div className="social-links">
-          <span>Follow us:</span>
-          <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="social-link">
-            <i className="fab fa-facebook"></i>
-          </a>
-        </div>
-      </footer>
+  <p>&copy; {new Date().getFullYear()} Fishing Companion</p>
+  <div className="social-links">
+    <span>Follow us:</span>
+
+    <a
+      href="https://facebook.com/yourpage"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-link"
+      aria-label="Facebook"
+      title="Facebook"
+    >
+      <i className="fab fa-facebook"></i>
+    </a>
+
+    <a
+      href="https://x.com/yourhandle"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-link x-logo"
+      aria-label="X (Twitter)"
+      title="X (Twitter)"
+    >
+      𝕏
+    </a>
+  </div>
+</footer>
+
     </div>
   );
 };
