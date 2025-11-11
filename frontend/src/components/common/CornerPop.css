@@ -50,3 +50,9 @@
   .corner-pop__img--animate { animation: none; }
 }
 
+/* in CornerPop.css */
+.corner-pop{ transform-origin: bottom right; }
+@media (max-width: 480px){ .corner-pop{ transform: scale(.65); } }
+@media (480px < width <= 768px){ .corner-pop{ transform: scale(.8); } }
+
+

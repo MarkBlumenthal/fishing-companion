@@ -1,3 +1,13 @@
+:root{
+  --step-0: clamp(14px, 1.6vw, 16px);
+  --step-1: clamp(18px, 2.2vw, 22px);
+  --space-1: clamp(8px, 1.6vw, 12px);
+  --space-2: clamp(12px, 2.4vw, 18px);
+}
+body { font-size: var(--step-0); line-height: 1.55; }
+.btn { min-height: 44px; padding: 0.6rem 1rem; }
+
+
 .App {
   display: flex;
   flex-direction: column;
@@ -214,6 +224,31 @@
   font-weight: 500;
   transition: background-color 0.3s, transform 0.1s;
 }
+
+.App-header h1{ font-size: clamp(22px, 6vw, 2.2rem); padding-left: 0; text-align: center; }
+.nav-links{ 
+  display: flex; flex-wrap: nowrap; gap: .5rem; 
+  overflow-x: auto; -webkit-overflow-scrolling: touch; 
+  margin: .75rem 0 0; padding: 0 .5rem;
+}
+.nav-links li{ margin: 0; }
+.nav-links a{ display: inline-block; white-space: nowrap; padding: .6rem .8rem; }
+@media (min-width: 768px){
+  .App-header h1{ font-size: clamp(26px, 3vw, 2.7rem); text-align: left; padding-left: 7%; }
+  .nav-links{ justify-content: flex-start; overflow: visible; }
+}
+
+html, body { height: 100%; }
+body{ padding-bottom: env(safe-area-inset-bottom); }
+.App-content{ padding: clamp(12px, 3.5vw, 2rem); }
+.App-footer{ padding-bottom: calc(1rem + env(safe-area-inset-bottom)); }
+
+.App-header h1{
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.4);
+}
+
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
