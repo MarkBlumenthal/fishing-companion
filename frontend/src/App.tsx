@@ -12,6 +12,8 @@ import CatchForm from './components/journal/CatchForm';
 import WeatherForecast from './components/weather/WeatherForecast';
 import CornerPop from './components/common/CornerPop';
 import BubbleBackground from './components/common/BubbleBackground';
+import cornerFish from './assets/corner-fish.png';
+
 
 const App: React.FC = () => {
   return (
@@ -96,7 +98,7 @@ const AppLayout: React.FC = () => {
       </main>
 
       {/* Sticky corner image */}
-      <CornerPop imgSrc="/images/corner-fish.png" size={220} />
+      <CornerPop imgSrc={cornerFish} size={220} />
 
       <footer className="App-footer">
         <p>&copy; {new Date().getFullYear()} Fishing Companion</p>
