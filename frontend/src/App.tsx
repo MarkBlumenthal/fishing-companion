@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import Splash from './components/splash/Splash';
 import Dashboard from './components/dashboard/Dashboard';
@@ -30,14 +30,36 @@ const App: React.FC = () => {
   );
 };
 
-// NEW COMPONENT - Layout with header and footer
+// Layout with header and footer (mobile hamburger added)
 const AppLayout: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Close the mobile menu whenever the route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   return (
     <div className="App">
-      <header className="App-header">
+      <header className={`App-header ${isMenuOpen ? 'menu-open' : ''}`}>
+        {/* Mobile hamburger toggle (CSS controls visibility by breakpoint) */}
+        <button
+          className="nav-toggle"
+          aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
+          aria-controls="primary-navigation"
+          onClick={() => setIsMenuOpen(v => !v)}
+        >
+          <span className="bar" />
+          <span className="bar" />
+          <span className="bar" />
+        </button>
+
         <h1>Fishing Companion</h1>
+
         <nav>
-          <ul className="nav-links">
+          <ul id="primary-navigation" className="nav-links">
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><Link to="/trips">Trip Planner</Link></li>
             <li><Link to="/fish">Fish Database</Link></li>
@@ -82,9 +104,6 @@ const AppLayout: React.FC = () => {
           <span>Follow us:</span>
           <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="social-link">
             <i className="fab fa-facebook"></i>
-          </a>
-          <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" className="social-link x-logo">
-            𝕏
           </a>
         </div>
       </footer>

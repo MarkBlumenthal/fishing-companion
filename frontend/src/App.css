@@ -248,6 +248,93 @@ body{ padding-bottom: env(safe-area-inset-bottom); }
   text-shadow: 0 1px 2px rgba(0,0,0,.4);
 }
 
+/* --- Sticky header so the hamburger stays visible while scrolling --- */
+.App-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* --- Hamburger button --- */
+.nav-toggle {
+  display: none;           /* hidden on desktop by default */
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: rgba(0,0,0,0.4);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.nav-toggle .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 5px auto;
+  background: #fff;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Animate into an "X" when open (optional) */
+.App-header.menu-open .nav-toggle .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.App-header.menu-open .nav-toggle .bar:nth-child(2) { opacity: 0; }
+.App-header.menu-open .nav-toggle .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* --- Mobile layout for the nav --- */
+@media (max-width: 767px) {
+  /* Show hamburger on small screens */
+  .nav-toggle { display: block; }
+
+  /* Keep header content from being blocked by the absolutely positioned menu */
+  .App-header {
+    padding-right: 60px; /* space for the toggle */
+  }
+
+  /* Hide the link row by default on phones */
+  .nav-links {
+    display: none;
+  }
+
+  /* When menu open, show a dropdown under the header */
+  .App-header.menu-open .nav-links {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+  }
+
+  .nav-links li { margin: 0; }
+  .nav-links a {
+    display: block;
+    padding: 0.75rem 0.5rem;
+    color: #fff;                 /* ensure readable on the dark panel */
+    text-decoration: none;
+  }
+}
+
+/* Desktop/tablet: keep your current horizontal nav */
+@media (min-width: 768px) {
+  .nav-toggle { display: none; }
+  .nav-links {
+    display: flex;    /* your existing desktop styles can stay */
+  }
+}
+
+/* Accessibility: reduce motion if the user prefers */
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle .bar { transition: none; }
+}
+
+
 
 
 /* Responsive adjustments */
