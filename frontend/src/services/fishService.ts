@@ -3,7 +3,6 @@ import { storage } from '../utils/helpers';
 
 // Local storage keys
 const FISH_SPECIES_KEY = 'fishing_companion_species';
-const CATCH_JOURNAL_KEY = 'fishing_companion_journal';
 
 // Sample fish species data for demonstration
 const sampleFishSpecies: FishSpecies[] = [

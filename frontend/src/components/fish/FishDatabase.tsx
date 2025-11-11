@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FishSpecies } from '../../types';
 import { fishService } from '../../services/fishService';
-import { Link } from 'react-router-dom';
 
 const FishDatabase: React.FC = () => {
   const [fishSpecies, setFishSpecies] = useState<FishSpecies[]>([]);

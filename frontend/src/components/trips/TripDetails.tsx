@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Trip, TripItem, WeatherData } from '../../types';
+import { Trip, WeatherData } from '../../types';
 import { tripService } from '../../services/tripService';
 import { weatherService } from '../../services/weatherService';
 import { formatDate, getFishingScoreColor } from '../../utils/helpers';

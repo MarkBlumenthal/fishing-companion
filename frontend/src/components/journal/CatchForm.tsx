@@ -4,7 +4,6 @@ import { CatchEntry, FishSpecies, Location } from '../../types';
 import { journalService } from '../../services/journalService';
 import { fishService } from '../../services/fishService';
 import { tripService } from '../../services/tripService';
-import { formatDate } from '../../utils/helpers';
 import Map from '../common/Map';
 
 interface CatchFormProps {
