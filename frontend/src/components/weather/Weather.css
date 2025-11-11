@@ -60,3 +60,40 @@
   background: white;
   color: #d9534f;
 }
+
+/* --- Weather page card glow (bottom of Weather.css) --- */
+.weather-forecast .card {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 0 20px rgb(5, 185, 245);
+  animation: pulseGlow 3s ease-in-out infinite;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.weather-forecast .card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 0 40px rgba(0, 190, 253, 0.95);
+  transform: translateY(-4px);
+}
+
+/* Keyframes (local to Weather.css so it works without Dashboard.css) */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 0 20px rgb(0, 190, 253);
+  }
+  50% {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 0 30px rgba(0, 190, 253, 0.9);
+  }
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .weather-forecast .card { animation: none; }
+}
+
+/* Space the Current Conditions card below the map */
+.weather-forecast .current-conditions.card {
+  margin-top: 2rem;      /* bump it down a bit */
+}
+
+/* (Optional) add some extra space under the map itself) */
+.weather-forecast .map-container {
+  margin-bottom: 0.75rem;
+}
