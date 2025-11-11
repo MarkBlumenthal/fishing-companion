@@ -285,6 +285,23 @@
   transform: translateY(-4px);
 }
 
+/* Ensure the decorative glow never blocks clicks */
+.fishing-conditions-card { 
+  position: relative;            /* create a stacking context for children */
+}
+
+.fishing-conditions-card::before {
+  pointer-events: none;          /* let clicks pass through */
+  z-index: 0;                    /* keep it behind the content */
+}
+
+/* Make sure the actual content (including the button) sits above the glow */
+.fishing-conditions-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .dashboard-header {
