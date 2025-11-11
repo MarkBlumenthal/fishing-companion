@@ -1,0 +1,68 @@
+/* CatchJournal.css */
+
+/* Make the header a centered column */
+.catch-journal .page-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center horizontally */
+  text-align: center;
+}
+
+/* Stack: New Catch on its own row, then the two secondary buttons */
+.catch-journal .journal-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center the block */
+  justify-content: center;
+  gap: 12px;             /* space between rows */
+  margin: 16px 0 24px;
+}
+
+/* Ensure buttons don’t stretch and don’t bring in weird margins */
+.catch-journal .journal-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  margin: 0;             /* override global margins */
+}
+
+/* Keep the primary at a natural width */
+.catch-journal .journal-actions .primary-action {
+  width: auto;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+/* Secondary row: guarantee spacing between the two buttons */
+.catch-journal .journal-actions .secondary-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 12px;      /* primary spacing */
+  /* If some CSS resets column-gap, fallback below keeps spacing anyway */
+}
+
+/* Fallback spacing (works even if gap/column-gap is overridden elsewhere) */
+.catch-journal .journal-actions .secondary-actions > * {
+  margin-right: 12px;
+}
+.catch-journal .journal-actions .secondary-actions > *:last-child {
+  margin-right: 0;
+}
+
+/* Optional: stack the two secondary buttons on very small screens */
+@media (max-width: 480px) {
+  .catch-journal .journal-actions .secondary-actions {
+    flex-direction: column;
+    column-gap: 0;
+  }
+  .catch-journal .journal-actions .secondary-actions > * {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  .catch-journal .journal-actions .secondary-actions > *:last-child {
+    margin-bottom: 0;
+  }
+}

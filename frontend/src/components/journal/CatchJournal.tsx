@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CatchEntry, FishSpecies } from '../../types';
+import { CatchEntry } from '../../types';
 import { journalService } from '../../services/journalService';
-import { fishService } from '../../services/fishService';
 import { formatDate } from '../../utils/helpers';
+import './CatchJournal.css';
 
 // Chart for catch statistics
 import {
@@ -13,7 +13,6 @@ import {
 
 const CatchJournal: React.FC = () => {
   const [catchEntries, setCatchEntries] = useState<CatchEntry[]>([]);
-  const [fishSpecies, setFishSpecies] = useState<FishSpecies[]>([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<'journal' | 'stats'>('journal');
   const [filterSpecies, setFilterSpecies] = useState('');
@@ -27,10 +26,6 @@ const CatchJournal: React.FC = () => {
       // Load all catch entries
       const entries = journalService.getAllEntries();
       setCatchEntries(entries);
-      
-      // Load fish species for filters
-      const species = fishService.getAllSpecies();
-      setFishSpecies(species);
       
       setLoading(false);
     };
@@ -142,20 +137,22 @@ const CatchJournal: React.FC = () => {
     <div className="catch-journal">
       <div className="page-header">
         <h2>Fishing Journal</h2>
-        <div className="page-actions">
-          <Link to="/journal/new" className="btn btn-primary">Record New Catch</Link>
-          <button 
-            className={`btn btn-secondary ${view === 'journal' ? 'active' : ''}`}
-            onClick={() => setView('journal')}
-          >
-            Journal View
-          </button>
-          <button 
-            className={`btn btn-secondary ${view === 'stats' ? 'active' : ''}`}
-            onClick={() => setView('stats')}
-          >
-            Statistics
-          </button>
+        <div className="journal-actions">
+          <Link to="/journal/new" className="btn btn-primary primary-action">Record New Catch</Link>
+          <div className="secondary-actions">
+            <button 
+              className={`btn btn-secondary ${view === 'journal' ? 'active' : ''}`}
+              onClick={() => setView('journal')}
+            >
+              Journal View
+            </button>
+            <button 
+              className={`btn btn-secondary ${view === 'stats' ? 'active' : ''}`}
+              onClick={() => setView('stats')}
+            >
+              Statistics
+            </button>
+          </div>
         </div>
       </div>
       
