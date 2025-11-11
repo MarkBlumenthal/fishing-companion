@@ -82,26 +82,29 @@ app.get('/api/sun/:lat/:lon/:date', async (req, res) => {
   }
 });
 
-// Simplified tides endpoint
+// Tides endpoint: return mock tides if coastal; otherwise an empty array (200)
 app.get('/api/tides/:lat/:lon/:date', (req, res) => {
   const { lat, lon, date } = req.params;
-  
-  const isCoastal = Math.abs(Math.abs(lon) - 123) < 3 || 
-                    Math.abs(Math.abs(lon) - 74) < 3;
-  
-  if (!isCoastal) {
-    return res.status(404).json({ error: 'No tide data available for inland locations' });
+
+  // SUPER-simplified coastal check; include Mediterranean longitudes too
+  const lonAbs = Math.abs(Number(lon));
+  const isUSCoast = Math.abs(lonAbs - 123) < 3 || Math.abs(lonAbs - 74) < 3; // west/east US mock
+  const isMedCoast = lonAbs >= 33 && lonAbs <= 36; // rough range for Israel’s Med coast
+
+  if (!isUSCoast && !isMedCoast) {
+    return res.json([]); // not coastal → no tides, but not an error
   }
-  
+
   const tides = [
     { time: '03:42:00', height: 1.2, type: 'low' },
     { time: '09:56:00', height: 4.5, type: 'high' },
     { time: '16:12:00', height: 0.8, type: 'low' },
     { time: '22:24:00', height: 3.9, type: 'high' }
   ];
-  
+
   res.json(tides);
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
